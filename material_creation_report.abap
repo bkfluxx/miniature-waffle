@@ -9,7 +9,7 @@ PARAMETERS: p_matnr TYPE matnr OBLIGATORY, " Material Number
 
 " Internal Tables and Work Areas
 DATA: lt_messages TYPE TABLE OF bapiret2, " Messages
-      ls_material TYPE bapi_material_savedata, " Material Data
+      ls_material TYPE bapi_materialmasterdata, " Material Data
       lv_return TYPE bapiret2. " Return Structure
 
 " Start-of-Selection
@@ -47,7 +47,7 @@ FORM create_material.
   ls_material-plant = p_werks.
 
   " Call BAPI to create material
-  CALL FUNCTION 'BAPI_MATERIAL_SAVEDATA'
+  CALL FUNCTION 'BAPI_MATERIAL_MASTER_SAVE'
     EXPORTING
       headdata = ls_material
     IMPORTING
