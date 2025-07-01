@@ -12,6 +12,8 @@ DATA: lt_messages TYPE TABLE OF bapiret2, " Messages
       ls_headdata TYPE bapimathead,              " Header Data for BAPI
       ls_mara TYPE bapi_mara,                    " MARA Data
       ls_mara_x TYPE bapi_marax,                 " MARA Data (X structure)
+      ls_marc TYPE bapi_marc,                    " Plant Data
+      ls_marc_x TYPE bapi_marcx,                 " Plant Data (X structure)
       ls_return TYPE bapiret2.                   " Return Structure
 
 " Start-of-Selection
@@ -46,12 +48,16 @@ FORM create_material.
   ls_headdata-material = p_matnr.
   ls_headdata-matl_type = p_mtart.
   ls_headdata-ind_sector = p_mbrsh.
-  ls_headdata-plant = p_werks.
 
   CLEAR ls_mara.
   CLEAR ls_mara_x.
   ls_mara-base_uom = p_meins.
   ls_mara_x-base_uom = 'X'.
+
+  CLEAR ls_marc.
+  CLEAR ls_marc_x.
+  ls_marc-plant = p_werks.
+  ls_marc_x-plant = 'X'.
 
   " Call BAPI to create material
   CALL FUNCTION 'BAPI_MATERIAL_SAVEDATA'
@@ -59,6 +65,8 @@ FORM create_material.
       headdata = ls_headdata
       clientdata = ls_mara
       clientdatax = ls_mara_x
+      plantdata = ls_marc
+      plantdatax = ls_marc_x
     IMPORTING
       return = ls_return
     TABLES
